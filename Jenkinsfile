@@ -2,9 +2,17 @@ pipeline {
     agent any
 
     stages {
-        stage('Print') {
+        stage('Gradle Clean') {
             steps {
-                echo "GitHub webhook"
+                echo "Gradle clean..."
+                sh './gradlew clean'
+            }
+        }
+
+        stage('Gradle Build without Tests') {
+            steps {
+                echo "Gradle build..."
+                sh './gradlew build -x test'
             }
         }
     }
