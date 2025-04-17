@@ -3,6 +3,9 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'gomgoguma/kube'
+        IMAGE_TAG = 'v0.0.1'
+        CREDENTIALS_ID = 'docker-token'
+        REGISTRY = 'https://registry-1.docker.io'
     }
 
     stages {
@@ -23,7 +26,20 @@ pipeline {
         stage('Docker Build') {
             steps {
                 echo 'Building Docker image...'
-                sh 'docker build -t $IMAGE_NAME .'
+                script {
+                    docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                }
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                echo 'Push Docker image...'
+                script {
+                    docker.withRegistry("${REGISTRY}", "${CREDENTIALS_ID}") {
+                        docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
+                    }
+                }
             }
         }
     }
