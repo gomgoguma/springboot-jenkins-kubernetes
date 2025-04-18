@@ -6,7 +6,7 @@ pipeline {
         IMAGE_TAG = 'v0.0.1'
         CREDENTIALS_ID = 'docker-token'
         REGISTRY = 'https://registry-1.docker.io'
-        GITHUB_TOKEN_ID = credentials('github-token')
+        GITHUB_TOKEN = credentials('token')
     }
 
     stages {
@@ -49,10 +49,9 @@ pipeline {
                 script {
                     sshagent(['ssh-key-for-deploy']) {
                         sh """
-                            export GITHUB_TOKEN=${GITHUB_TOKEN}
                             ssh -o StrictHostKeyChecking=no gomgoguma@gomgoguma.iptime.org "
                                 cd ~/k3s/spring
-                                curl -H 'Authorization: token \$GITHUB_TOKEN' https://raw.githubusercontent.com/gomgoguma/springboot-jenkins-kubernetes/main/spring-deploy.yaml -o deploy.yaml
+                                curl -H 'Authorization: token ${GITHUB_TOKEN}' https://raw.githubusercontent.com/gomgoguma/springboot-jenkins-kubernetes/main/spring-deploy.yaml -o deploy.yaml
                                 sudo kubectl apply -f deploy.yaml
                             "
                         """
