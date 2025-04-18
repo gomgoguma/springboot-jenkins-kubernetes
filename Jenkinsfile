@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'gomgoguma/kube'
-        IMAGE_TAG = 'v0.0.1'
+        IMAGE_TAG = 'v0.0.2'
         CREDENTIALS_ID = 'docker-token'
         REGISTRY = 'https://registry-1.docker.io'
         GITHUB_TOKEN = credentials('token')

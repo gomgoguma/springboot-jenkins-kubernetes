@@ -16,7 +16,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: spring
-          image: gomgoguma/kube:v0.0.1
+          image: gomgoguma/kube:v0.0.2
           ports:
             - containerPort: 8080
           resources:

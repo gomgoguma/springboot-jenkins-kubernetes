@@ -15,6 +15,6 @@ public class SpringbootJenkinsKubernetesApplication {
 
     @GetMapping("")
     public String hello() {
-        return "Hello World";
+        return "Hello World2";
     }
 }
