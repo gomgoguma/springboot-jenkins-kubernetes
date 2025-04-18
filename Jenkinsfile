@@ -48,13 +48,14 @@ pipeline {
             steps {
                 script {
                     sshagent(['ssh-key-for-deploy']) {
-                        sh '''
+                        sh """
+                            export GITHUB_TOKEN=${GITHUB_TOKEN}
                             ssh -o StrictHostKeyChecking=no gomgoguma@gomgoguma.iptime.org "
                                 cd ~/k3s/spring
-                                curl -H 'Authorization: token ${GITHUB_TOKEN}' https://... -o deploy.yaml
+                                curl -H 'Authorization: token \$GITHUB_TOKEN' https://raw.githubusercontent.com/gomgoguma/springboot-jenkins-kubernetes/main/spring-deploy.yaml -o deploy.yaml
                                 sudo kubectl apply -f deploy.yaml
                             "
-                        '''
+                        """
                     }
                 }
             }
